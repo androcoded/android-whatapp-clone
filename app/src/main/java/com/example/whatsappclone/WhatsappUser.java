@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,7 +25,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhatsappUser extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class WhatsappUser extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     private ListView listViewUsers;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -38,6 +40,7 @@ public class WhatsappUser extends AppCompatActivity implements SwipeRefreshLayou
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         gettingAllparseUser();
+        listViewUsers.setOnItemClickListener(this);
     }
 
     private void gettingAllparseUser(){
@@ -115,5 +118,12 @@ public class WhatsappUser extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this,WhatsappChat.class);
+        intent.putExtra("user",allUsers.get(position));
+        startActivity(intent);
     }
 }
